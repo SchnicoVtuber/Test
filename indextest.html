@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchnicoVtuber | Premium Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: rgba(22, 22, 22, 0.9); /* Leicht transparent für den Hintergrund-Effekt */
+            --twitch-purple: #9146FF;
+            --accent-glow: #a970ff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #eeeeee;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Hintergrund Video/GIF */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: blur(8px) brightness(0.4); /* Verschwommen & Dunkel für Lesbarkeit */
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px);
+            transition: 0.4s ease;
+            z-index: 100;
+            padding-top: 60px;
+            border-right: 1px solid var(--twitch-purple);
+        }
+
+        .sidebar.active { left: 0; }
+
+        .sidebar a {
+            padding: 15px 25px;
+            display: block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover { background: var(--twitch-purple); padding-left: 35px; }
+
+        /* Burger Button */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            cursor: pointer;
+            background: var(--twitch-purple);
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Main Content Wrapper */
+        .content {
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Dein bestehender Card-Style mit Hover-Effekt */
+        .animated-card {
+            position: relative;
+            background: var(--card-bg);
+            border-radius: 15px;
+            margin: 20px 0;
+            width: 90%;
+            max-width: 800px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .animated-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(145, 70, 255, 0.3);
+        }
+
+        /* Glow-Rand Effekt (wie zuvor) */
+        .animated-card::before {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--twitch-purple));
+            animation: rotate 6s linear infinite;
+            z-index: 1;
+        }
+
+        .card-content {
+            position: relative;
+            background: #161616;
+            margin: 3px; /* Hier entsteht der Rand */
+            padding: 25px;
+            border-radius: 12px;
+            z-index: 2;
+        }
+
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+        /* Status Anzeige */
+        .online { background: #e91916; box-shadow: 0 0 20px #e91916; animation: pulse 1.5s infinite; }
+        .offline { background: #444; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZ3bmZ3bmZ3/your-cool-gif.gif" class="bg-video" alt="background">
+    <div class="menu-btn" onclick="toggleSidebar()">☰ Menü</div>
+
+    <div class="sidebar" id="sidebar">
+        <a href="#live">Live Panel</a>
+        <a href="#socials">Socials</a>
+        <a href="#about">Über mich</a>
+        <a href="#music">Musik (Beta)</a>
+        <div style="padding: 20px; color: #888; font-size: 0.8rem;">
+            <p>Under Construction 🚧</p>
+        </div>
+    </div>
+
+    <div class="content" id="main-content">
+        <header style="text-align: center; padding: 40px;">
+            <h1 style="font-size: 3.5rem; background: linear-gradient(to right, #fff, var(--twitch-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Schnico</h1>
+            <div id="status-indicator" class="offline" style="padding: 10px 20px; border-radius: 20px; display: inline-block;">Offline</div>
+        </header>
+
+        <div class="animated-card" id="live">
+            <div class="card-content">
+                <h2>Live Stream</h2>
+                <p>Hier kommt dein Twitch-Embed rein...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Simulierter Live-Check (Erweiterung folgt in Step 2)
+        function updateStatus(isLive) {
+            const el = document.getElementById('status-indicator');
+            if(isLive) {
+                el.className = "online";
+                el.innerText = "● LIVE AUF TWITCH";
+            } else {
+                el.className = "offline";
+                el.innerText = "OFFLINE";
+            }
+        }
+        updateStatus(false); // Testweise auf true setzen
+    </script>
+</body>
+</html>
